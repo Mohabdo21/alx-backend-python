@@ -1,0 +1,9 @@
+# Python compiled files
+__pycache__/
+*.py[cod]
+
+# Log files
+*.log
+
+# Main files
+*-main.py
