@@ -1,10 +1,15 @@
-# 0x00. Python - Variable Annotations
+# alx-backend-python
 
-This project is part of the Python Back-end curriculum. The main objective is to understand and implement the concepts of type annotations in Python.
+This repository is part of the Alx Software Engineering curriculum. It contains various projects and tasks related to backend development using Python.
 
-## Learning Objectives
+## Getting Started
 
-- Understand the concept of type annotations in Python 3.
-- Learn how to use type annotations to specify function signatures and variable types.
-- Understand the concept of duck typing in Python.
-- Learn how to validate your Python code with mypy.
+Each directory in this repository corresponds to a project. Each project has its own README file that provides more details about the project, including the learning objectives, requirements, and tasks.
+
+## Contributing
+
+This repository is for educational purposes. As such, pull requests will not be accepted.
+
+## Acknowledgments
+
+- The Alx Software Engineering team for providing the learning platform.
