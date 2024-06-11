@@ -2,7 +2,7 @@
 """
 This module contains an asynchronous coroutine that waits for a random delay.
 
-The coroutine, `wait_random`, waits for a random delay up to a maximum limit 
+The coroutine, `wait_random`, waits for a random delay up to a maximum limit
 and returns the actual delay.
 """
 import asyncio

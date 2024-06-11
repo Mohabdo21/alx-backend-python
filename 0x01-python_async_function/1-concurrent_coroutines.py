@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-This module contains an asynchronous function that executes `wait_random` 
+This module contains an asynchronous function that executes `wait_random`
 multiple times concurrently.
 
-The function, `wait_n`, concurrently executes `wait_random` for a specified 
+The function, `wait_n`, concurrently executes `wait_random` for a specified
 number of times and returns the delays in ascending order.
 """
 

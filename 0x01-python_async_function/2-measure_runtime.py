@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-This module contains a function that measures the average runtime of the 
+This module contains a function that measures the average runtime of the
 `wait_n` function.
 
-The function, `measure_time`, computes the average runtime of `wait_n` 
+The function, `measure_time`, computes the average runtime of `wait_n`
 over a specified number of runs.
 """
 
