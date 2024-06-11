@@ -12,9 +12,11 @@ async def async_generator() -> AsyncGenerator[float, None]:
     """
     An asynchronous generator that yields random numbers.
 
-    This generator will loop 10 times, each time asynchronously
-    waiting 1 second,
-    then yielding a random number between 0 and 10.
+    Returns:
+        AsyncGenerator[float, None]: An asynchronous generator object.
+
+    Yields:
+        float: A random floating-point number in the range [0, 10).
     """
     for _ in range(10):
         await asyncio.sleep(1)
