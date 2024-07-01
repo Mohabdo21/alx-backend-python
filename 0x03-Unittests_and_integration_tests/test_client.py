@@ -151,7 +151,7 @@ class TestIntegrationGithubOrgClient(TestCase):
         """Return a mock response object for the given URL."""
         if url in cls.route_payload:
             return Mock(json=lambda: cls.route_payload[url])
-        raise HTTPError
+        # raise HTTPError
 
     @classmethod
     def tearDownClass(cls) -> None:
