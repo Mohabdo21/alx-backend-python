@@ -132,39 +132,36 @@ class TestIntegrationGithubOrgClient(TestCase):
     """Integration tests for the GithubOrgClient class."""
 
     @classmethod
-    def setUpClass(cls) -> None:
-        """Set up the tests class with mocked HTTP get requests."""
-        route_payload = {
+    def setUpClass(cls):
+        """Set up the test class with mocked HTTP get requests."""
+        cls.route_payload = {
             "https://api.github.com/orgs/google": cls.org_payload,
             "https://api.github.com/orgs/google/repos": cls.repos_payload,
         }
 
-        # Side effect function for the mock that
-        # returns the correct payload
-        def get_payload(url: str) -> Mock:
-            """Return a mock response object for the given URL."""
-            if url in route_payload:
-                return Mock(json=lambda: route_payload[url])
-            raise HTTPError
+        cls.get_patcher = patch(
+            "requests.get", side_effect=cls.mocked_requests_get)
+        cls.mock_get = cls.get_patcher.start()
 
-        # Start patching 'requests.get'
-        cls.get_patcher = patch("requests.get", side_effect=get_payload)
-        cls.get_patcher.start()
-
-        # Single instance of GithubOrgClient
         cls.client = GithubOrgClient("google")
 
     @classmethod
-    def tearDownClass(cls) -> None:
+    def tearDownClass(cls):
         """Clean up the test class by stopping the patcher."""
         cls.get_patcher.stop()
 
-    def test_public_repos(self) -> None:
-        """Tests the public_repos method."""
+    @classmethod
+    def mocked_requests_get(cls, url):
+        """Mock requests.get to return the correct payload based on the URL."""
+        if url in cls.route_payload:
+            return Mock(json=lambda: cls.route_payload[url])
+        raise HTTPError
+
+    def test_public_repos(self):
+        """Test the public_repos method."""
         self.assertEqual(self.client.public_repos(), self.expected_repos)
 
-    def test_public_repos_with_license(self) -> None:
-        """Tests the public_repos method with a license."""
-        self.assertEqual(self.client.public_repos(license="apache-2.0"),
-                         self.apache2_repos,
-                         )
+    def test_public_repos_with_license(self):
+        """Test the public_repos method with a license."""
+        self.assertEqual(self.client.public_repos(
+            license="apache-2.0"), self.apache2_repos)
