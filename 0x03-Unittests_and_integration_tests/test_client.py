@@ -94,3 +94,17 @@ class TestGithubOrgClient(TestCase):
                              "episodes.dart", "cpp-netlib"])
             mocked_public_repos_url.assert_called_once()
         mocked_get_json.assert_called_once()
+
+    @parameterized.expand(
+        [
+            ({"license": {"key": "apache-2.0"}}, "apache-2.0", True),
+            ({"license": {"key": "apache-2.0"}}, "bsd-3-clause", False),
+        ]
+    )
+    def test_has_license(self,
+                         repo: Dict[str, Dict[str, str]],
+                         key: str, expected: bool) -> None:
+        """Tests for 'has_license' method."""
+        mocked_org_client = GithubOrgClient("google")
+        client_has_license = mocked_org_client.has_license(repo, key)
+        self.assertEqual(client_has_license, expected)
