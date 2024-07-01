@@ -134,25 +134,24 @@ class TestIntegrationGithubOrgClient(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         """Set up the tests class with mocked HTTP get requests."""
-        route_payload = {
+        cls.route_payload = {
             "https://api.github.com/orgs/google": cls.org_payload,
             "https://api.github.com/orgs/google/repos": cls.repos_payload,
         }
 
-        # Side effect function for the mock that
-        # returns the correct payload
-        def get_payload(url: str) -> Mock:
-            """Return a mock response object for the given URL."""
-            if url in route_payload:
-                return Mock(json=lambda: route_payload[url])
-            raise HTTPError
-
         # Start patching 'requests.get'
-        cls.get_patcher = patch("requests.get", side_effect=get_payload)
+        cls.get_patcher = patch("requests.get", side_effect=cls.get_payload)
         cls.get_patcher.start()
 
         # Single instance of GithubOrgClient
         cls.client = GithubOrgClient("google")
+
+    @classmethod
+    def get_payload(cls, url: str) -> Mock:
+        """Return a mock response object for the given URL."""
+        if url in cls.route_payload:
+            return Mock(json=lambda: cls.route_payload[url])
+        raise HTTPError
 
     @classmethod
     def tearDownClass(cls) -> None:
