@@ -4,6 +4,8 @@ A Module for testing the utils module.
 
 This module contains tests for the following functions:
 - access_nested_map
+- get_json
+- memoize
 """
 
 from typing import Dict, Tuple, Type, Union
