@@ -125,46 +125,38 @@ class TestGithubOrgClient(TestCase):
             "repos_payload": TEST_PAYLOAD[0][1],
             "expected_repos": TEST_PAYLOAD[0][2],
             "apache2_repos": TEST_PAYLOAD[0][3],
-        },
+        }
     ]
 )
 class TestIntegrationGithubOrgClient(TestCase):
-    """Integration tests for the GithubOrgClient class."""
 
     @classmethod
     def setUpClass(cls) -> None:
-        """Set up the tests class with mocked HTTP get requests."""
-        cls.get_patcher = patch('requests.get')
-        cls.mock_get = cls.get_patcher.start()
-        cls.mock_get.side_effect = cls.get_payload
+        cls.route_payload = {
+            "https://api.github.com/orgs/google": cls.org_payload,
+            "https://api.github.com/orgs/google/repos": cls.repos_payload
+        }
+
+        cls.get_patcher = patch("requests.get", side_effect=cls.get_payload)
+        cls.get_patcher.start()
+
+        cls.client = GithubOrgClient("google")
+
+    @classmethod
+    def get_payload(cls, url: str) -> Mock:
+        if url in cls.route_payload:
+            return Mock(json=lambda: cls.route_payload[url])
+        raise HTTPError
 
     @classmethod
     def tearDownClass(cls) -> None:
-        """Clean up the test class by stopping the patcher."""
         cls.get_patcher.stop()
 
-    @classmethod
-    def get_payload(cls, url):
-        """Return a mock response object for the given URL."""
-        fake_responses = {
-            "https://api.github.com/orgs/google": cls.org_payload,
-            "https://api.github.com/orgs/google/repos": cls.repos_payload,
-        }
-        if url in fake_responses:
-            mock_response = Mock()
-            mock_response.json.return_value = fake_responses[url]
-            return mock_response
-        return HTTPError
-
     def test_public_repos(self) -> None:
-        """Tests the public_repos method."""
-        client = GithubOrgClient("google")
-        self.assertEqual(client.public_repos(), self.expected_repos)
+        self.assertEqual(self.client.public_repos(), self.expected_repos)
 
     def test_public_repos_with_license(self) -> None:
-        """Tests the public_repos method with a license."""
-        client = GithubOrgClient("google")
         self.assertEqual(
-            client.public_repos(license="apache-2.0"),
-            self.apache2_repos,
+            self.client.public_repos(license="apache-2.0"),
+            self.apache2_repos
         )
