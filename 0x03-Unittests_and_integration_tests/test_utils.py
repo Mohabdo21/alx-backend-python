@@ -6,7 +6,7 @@ This module contains tests for the following functions:
 - access_nested_map
 """
 
-from typing import Dict, Tuple, Union
+from typing import Dict, Tuple, Type, Union
 from unittest import TestCase
 
 from parameterized import parameterized
@@ -32,3 +32,19 @@ class TestAccessNestedMap(TestCase):
     ) -> None:
         """Test 'access_nested_map' output."""
         self.assertEqual(access_nested_map(nested_map, path), expected)
+
+    @parameterized.expand(
+        [
+            ({}, ("a",), KeyError),
+            ({"a": 1}, ("a", "b"), KeyError),
+        ]
+    )
+    def test_access_nested_map_exception(
+        self,
+        nested_map: Dict[str, Union[Dict, int]],
+        path: Tuple[str, ...],
+        exception: Type[BaseException],
+    ) -> None:
+        """Tests 'access_nested_map' exception raising."""
+        with self.assertRaises(exception):
+            access_nested_map(nested_map, path)
