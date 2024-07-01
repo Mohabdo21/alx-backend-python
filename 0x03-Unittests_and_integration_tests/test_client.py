@@ -142,6 +142,7 @@ class TestIntegrationGithubOrgClient(TestCase):
         # Side effect function for the mock that
         # returns the correct payload
         def get_payload(url: str) -> Mock:
+            """Return a mock response object for the given URL."""
             if url in route_payload:
                 return Mock(json=lambda: route_payload[url])
             raise HTTPError
