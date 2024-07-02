@@ -8,8 +8,8 @@ This module contains tests for the following functions:
 - memoize
 """
 
+import unittest
 from typing import Dict, Tuple, Type, Union
-from unittest import TestCase
 from unittest.mock import Mock, patch
 
 from parameterized import parameterized
@@ -17,7 +17,7 @@ from parameterized import parameterized
 from utils import access_nested_map, get_json, memoize
 
 
-class TestAccessNestedMap(TestCase):
+class TestAccessNestedMap(unittest.TestCase):
     """Tests the 'access_nested_map' function."""
 
     @parameterized.expand(
@@ -53,7 +53,7 @@ class TestAccessNestedMap(TestCase):
             access_nested_map(nested_map, path)
 
 
-class TestGetJson(TestCase):
+class TestGetJson(unittest.TestCase):
     """Test class for 'get_json' function."""
 
     @parameterized.expand(
@@ -72,7 +72,7 @@ class TestGetJson(TestCase):
             get_req.assert_called_once_with(test_url)
 
 
-class TestMemoize(TestCase):
+class TestMemoize(unittest.TestCase):
     """Test class for the 'memoize' decorator."""
 
     def test_memoize(self) -> None:

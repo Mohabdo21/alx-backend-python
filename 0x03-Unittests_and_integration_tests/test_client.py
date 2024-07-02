@@ -6,8 +6,8 @@ This module contains unit and integration tests for the
 GithubOrgClient class.
 """
 
+import unittest
 from typing import Dict
-from unittest import TestCase
 from unittest.mock import MagicMock, Mock, PropertyMock, patch
 
 from parameterized import parameterized, parameterized_class
@@ -17,7 +17,7 @@ from client import GithubOrgClient
 from fixtures import TEST_PAYLOAD
 
 
-class TestGithubOrgClient(TestCase):
+class TestGithubOrgClient(unittest.TestCase):
     """Tests the githubOrgClient class."""
 
     @parameterized.expand(
@@ -128,7 +128,7 @@ class TestGithubOrgClient(TestCase):
         },
     ]
 )
-class TestIntegrationGithubOrgClient(TestCase):
+class TestIntegrationGithubOrgClient(unittest.TestCase):
     """Integration tests for the GithubOrgClient class."""
 
     @classmethod
@@ -164,6 +164,7 @@ class TestIntegrationGithubOrgClient(TestCase):
 
     def test_public_repos_with_license(self) -> None:
         """Tests the public_repos method with a license."""
-        self.assertEqual(self.client.public_repos(license="apache-2.0"),
-                         self.apache2_repos,
-                         )
+        self.assertEqual(
+            self.client.public_repos(license="apache-2.0"),
+            self.apache2_repos,
+        )
