@@ -111,15 +111,16 @@ class TestGithubOrgClient(unittest.TestCase):
     )
     def test_has_license(
         self, repo: Dict[str, Dict[str, Union[str, bool]]],
-        key: str, expected: bool
+        license_key: str, expected: bool
     ) -> None:
         """Tests for 'has_license' method."""
         with patch("client.GithubOrgClient.has_license",
                    return_value=expected) as mocked_has_license:
             mocked_org_client = GithubOrgClient("google")
-            client_has_license = mocked_org_client.has_license(repo, key)
+            client_has_license = mocked_org_client.has_license(repo,
+                                                               license_key)
             self.assertEqual(client_has_license, expected)
-            mocked_has_license.assert_called_with(repo, key)
+            mocked_has_license.assert_called_with(repo, license_key)
 
 
 @parameterized_class(
