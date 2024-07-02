@@ -23,18 +23,20 @@ class TestGithubOrgClient(unittest.TestCase):
 
     @parameterized.expand(
         [
-            ("google"),
-            ("abc")
+            ("google", {"login": "google"}),
+            ("abc", {"login": "abc"}),
         ]
     )
     @patch("client.get_json")
     def test_org(
-        self, org: str, mocked_org_method: MagicMock
+        self, org: str, response: Dict[str, str], mocked_org_method: MagicMock
     ) -> None:
-        mocked_class = GithubOrgClient(org)
-        mocked_class.org()
+        """Tests the 'org' method."""
+        mocked_org_method.return_value = response
+        get_org_client = GithubOrgClient(org)
+        self.assertEqual(get_org_client.org, response)
         mocked_org_method.assert_called_once_with(
-            mocked_class.ORG_URL.format(org=org))
+            f"https://api.github.com/orgs/{org}")
 
     def test_public_repos_url(self):
         """Tests the _public_repos_url property."""
