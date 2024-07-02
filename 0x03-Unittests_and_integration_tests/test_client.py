@@ -111,7 +111,8 @@ class TestGithubOrgClient(unittest.TestCase):
         ]
     )
     def test_has_license(
-        self, repo: Dict[str, Dict[str, str]], key: str, expected: bool
+        self, repo: Dict[str, Dict],
+        key: str, expected: bool
     ) -> None:
         """Tests for 'has_license' method."""
         mocked_org_client = GithubOrgClient("google")
