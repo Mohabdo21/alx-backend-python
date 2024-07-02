@@ -6,8 +6,9 @@ This module contains unit and integration tests for the
 GithubOrgClient class.
 """
 
+
 import unittest
-from typing import Any, Dict, List, Union
+from typing import Dict
 from unittest.mock import MagicMock, Mock, PropertyMock, patch
 
 from parameterized import parameterized, parameterized_class
@@ -18,7 +19,7 @@ from fixtures import TEST_PAYLOAD
 
 
 class TestGithubOrgClient(unittest.TestCase):
-    """Tests the GithubOrgClient class."""
+    """Tests the githubOrgClient class."""
 
     @parameterized.expand(
         [
@@ -37,7 +38,7 @@ class TestGithubOrgClient(unittest.TestCase):
         mocked_org_method.assert_called_once_with(
             f"https://api.github.com/orgs/{org}")
 
-    def test_public_repos_url(self) -> None:
+    def test_public_repos_url(self):
         """Tests the _public_repos_url property."""
         with patch(
             "client.GithubOrgClient.org", new_callable=PropertyMock
@@ -51,7 +52,7 @@ class TestGithubOrgClient(unittest.TestCase):
             )
 
     @patch("client.get_json")
-    def test_public_repos(self, mocked_get_json: MagicMock) -> None:
+    def test_public_repos(self, mocked_get_json: MagicMock):
         """Tests the public_repos method."""
         test_payload = {
             "repos_url": "https://api.github.com/orgs/google/repos",
@@ -110,7 +111,7 @@ class TestGithubOrgClient(unittest.TestCase):
         ]
     )
     def test_has_license(
-        self, repo: Dict[str, Dict[str, Union[str, bool]]],
+        self, repo: Dict[str, Dict],
         key: str, expected: bool
     ) -> None:
         """Tests for 'has_license' method."""
@@ -131,11 +132,6 @@ class TestGithubOrgClient(unittest.TestCase):
 )
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """Integration tests for the GithubOrgClient class."""
-
-    org_payload: Dict[str, Any]
-    repos_payload: List[Dict[str, Any]]
-    expected_repos: List[str]
-    apache2_repos: List[str]
 
     @classmethod
     def setUpClass(cls) -> None:
