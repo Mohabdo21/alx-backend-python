@@ -109,10 +109,9 @@ class TestGithubOrgClient(unittest.TestCase):
             ({"license": {"key": "other_license"}}, "my_license", False),
         ]
     )
-    def test_has_license(
-        self, repo: Dict[str, Dict[str, Union[str, bool]]],
-        license_key: str, expected: bool
-    ) -> None:
+    def test_has_license(self, repo: Dict[str, Dict[str, Union[str, bool]]],
+                         license_key: str, expected: bool
+                         ) -> None:
         """Tests for 'has_license' method."""
         with patch("client.GithubOrgClient.has_license",
                    return_value=expected) as mocked_has_license:
