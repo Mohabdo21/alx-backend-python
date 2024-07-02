@@ -114,9 +114,12 @@ class TestGithubOrgClient(unittest.TestCase):
         key: str, expected: bool
     ) -> None:
         """Tests for 'has_license' method."""
-        mocked_org_client = GithubOrgClient("google")
-        client_has_license = mocked_org_client.has_license(repo, key)
-        self.assertEqual(client_has_license, expected)
+        with patch("client.GithubOrgClient.has_license",
+                   return_value=expected) as mocked_has_license:
+            mocked_org_client = GithubOrgClient("google")
+            client_has_license = mocked_org_client.has_license(repo, key)
+            self.assertEqual(client_has_license, expected)
+            mocked_has_license.assert_called_with(repo, key)
 
 
 @parameterized_class(
